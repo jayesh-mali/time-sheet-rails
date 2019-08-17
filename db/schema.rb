@@ -17,15 +17,17 @@ ActiveRecord::Schema.define(version: 2019_08_16_155619) do
 
   create_table "projects", force: :cascade do |t|
     t.string "name", null: false
-    t.string "project_manager", null: false
+    t.bigint "manager_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["manager_id"], name: "index_projects_on_manager_id"
     t.index ["name"], name: "index_projects_on_name"
-    t.index ["project_manager"], name: "index_projects_on_project_manager"
   end
 
   create_table "time_logs", force: :cascade do |t|
     t.text "description"
+    t.decimal "hours", precision: 4, scale: 2, null: false
+    t.date "date", null: false
     t.bigint "project_id", null: false
     t.bigint "created_by_id"
     t.bigint "updated_by_id"
@@ -44,6 +46,7 @@ ActiveRecord::Schema.define(version: 2019_08_16_155619) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "projects", "users", column: "manager_id"
   add_foreign_key "time_logs", "users", column: "created_by_id"
   add_foreign_key "time_logs", "users", column: "updated_by_id"
 end

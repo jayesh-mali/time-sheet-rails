@@ -1,3 +1,4 @@
 class TimeLogSerializer < ActiveModel::Serializer
-  attributes :id
+  belongs_to :project
+  attributes :id, :hours, :description, :date, :project
 end
